@@ -1,0 +1,9 @@
+const RISK_INFO = 0;
+const RISK_LOW = 1;
+const RISK_MEDIUM = 2;
+const RISK_HIGH = 3;
+
+const CONFIDENCE_FALSE_POSITIVE = 0;
+const CONFIDENCE_LOW = 1;
+const CONFIDENCE_MEDIUM = 2;
+const CONFIDENCE_HIGH = 3;

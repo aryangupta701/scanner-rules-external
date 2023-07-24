@@ -1,0 +1,784 @@
+{
+    "files":[
+      {
+        "path":"lfm.php",
+        "content":["Lazy File Manager"],
+        "type":"lfm_php",
+        "source":"snallygaster"
+      },
+      {
+        "path":".idea/WebServers.xml",
+        "content":["name=\"WebServers\""],
+        "type":"idea",
+        "source":"snallygaster"
+      },
+      {
+        "path":"config/databases.yml",
+        "content":["class:","param:"],
+        "links":["https://symfony.com/legacy/doc/reference/1_4/en/07-Databases"],
+        "type":"symfony_databases_yml",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"config/database.yml",
+        "content":["adapter:","database:"],
+        "links":["https://edgeguides.rubyonrails.org/configuring.html"],
+        "type":"rails_database_yml",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":".git/config",
+        "content":["[core]"],
+        "links":["https://git-scm.com/docs/git-config"],
+        "type":"git_dir",
+        "source":"snallygaster"
+      },
+      {
+        "path":"server-status",
+        "content":["Apache Status"],
+        "links":["https://httpd.apache.org/docs/current/mod/mod_status.html"],
+        "type":"apache_server_status",
+        "source":"snallygaster"	
+      },
+      {
+        "path":"core",
+        "binary":"\\x7fELF",
+        "links":["https://en.wikipedia.org/wiki/Core_dump"],
+        "type":"coredump",
+        "source":"snallygaster"	
+      },
+      {
+        "path":"sftp-config.json",
+        "content":["\"type\":","ftp","\"save_before_upload\""],
+        "type":"sftp_config",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"WS_FTP.ini",
+        "content":["[_config_]"],
+        "type":"wsftp_ini",
+        "source":"snallygaster"
+      },
+      {
+        "path":"ws_ftp.ini",
+        "content":["[_config_]"],
+        "type":"wsftp_ini",
+        "source":"snallygaster"
+      },
+      {
+        "path":"WS_FTP.INI",
+        "content":["[_config_]"],
+        "type":"wsftp_ini",
+        "source":"snallygaster"
+      },
+      {
+        "path":"filezilla.xml",
+        "content":["<FileZilla"],
+        "type":"filezilla_xml",
+        "source":"snallygaster"
+      },
+      {
+        "path":"sitemanager.xml",
+        "content":["<FileZilla"],
+        "type":"filezilla_xml",
+        "source":"snallygaster"
+      },
+      {
+        "path":"FileZilla.xml",
+        "content":["<FileZilla"],
+        "type":"filezilla_xml",
+        "source":"snallygaster"
+      },
+      {
+        "path":"winscp.ini",
+        "content":["[Configuration]"],
+        "type":"winscp_ini",
+        "source":"snallygaster"
+      },
+      {
+        "path":"WinSCP.ini",
+        "content":["[Configuration]"],
+        "type":"winscp_ini",
+        "source":"snallygaster"
+      },
+      {
+        "path":".DS_Store",
+        "binary":"\\x00\\x00\\x00\\x01Bud1",
+        "type":"ds_store",
+        "source":"snallygaster"
+      },
+      {
+        "path":".php_cs.cache",
+        "content":["{\"php\":\""],
+        "type":"php_cs_cache",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"DEADJOE",
+        "content":["in JOE when it aborted"],
+        "type":"deadjoe",
+        "source":"snallygaster"
+      },
+      {
+        "path":"sites/default/private/files/backup_migrate/scheduled/test.txt",
+        "content":["this file should not be publicly accessible"],
+        "type":"drupal_backup_migrate",
+        "source":"snallygaster"
+      },
+      {
+        "path":"app/etc/local.xml",
+        "content":["<config","Mage"],
+        "type":"magento_config",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"server.key",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"privatekey.key",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"myserver.key",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"key.pem",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"id_rsa",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"id_dsa",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":".ssh/id_rsa",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":".ssh/id_dsa",
+        "content":["BEGIN","PRIVATE KEY"],
+        "type":"keys",
+        "source":"snallygaster",
+        "condition":"AND"
+      },
+      {
+        "path":"adminer.php",
+        "content":["adminer.org"],
+        "type":"adminer",
+        "source":"snallygaster"
+      },
+      {
+        "path":"CHANGELOG.txt",
+        "content":["Drupal "],
+        "type":"drupal",
+        "source":"snallygaster"
+      },
+      {
+        "path":"sites/default/files/.ht.sqlite",
+        "binary":"SQLite format",
+        "type":"drupaldb",
+        "source":"snallygaster"
+      },
+      {
+        "path":"composer.json",
+        "content":["\"require\":","\"packages\":"],
+        "type":"composer",
+        "source":"snallygaster"
+      },
+      {
+        "path":"composer.lock",
+        "content":["\"require\":","\"packages\":"],
+        "type":"composer",
+        "source":"snallygaster"
+      },
+      {
+        "path":"vim_settings.xml",
+        "content":["component name=\"VimSettings\""],
+        "links":["https://blog.jetbrains.com/blog/2019/09/26/jetbrains-security-bulletin-q2-2019/","https://nvd.nist.gov/vuln/detail/CVE-2019-14957"],
+        "type":"jetbrains_vim_settings",
+        "source":"misc"
+      },
+      {
+        "path":"server-info",
+        "content":["Apache Server Information"],
+        "links":["https://twitter.com/jae_hak99/status/1286605139042643974","https://httpd.apache.org/docs/current/mod/mod_info.html"],
+        "type":"apache_server_info",
+        "source":"twitter"	
+      },
+      {
+        "path":"domcfg.nsf",
+        "content":["Web Server Configuration","Mapping","Mappings"]
+      },
+      {
+        "path":"install.php?profile=default",
+        "content":["Choose language"]
+      },
+      {
+        "path":"keycloak.json",
+        "content":["realm","resource","auth-server-url"],
+        "condition":"AND"
+      },
+      {
+        "path":"phpunit.xml",
+        "content":["<phpunit"]
+      },
+      {
+        "path":"mysql.initial.sql",
+        "content":["Roundcube Webmail initial database structure"]
+      },
+      {
+        "path":"index.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"default.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"main.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"config.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"settings.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"header.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"footer.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"login.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"database.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"db.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"conn.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"db_config.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"404.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"wp-config.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"wp-login.php.bak",
+        "content":["<?php", "<?="],
+        "condition":"OR"
+      },
+      {
+        "path":"settings.php.save",
+        "content":["DB_NAME", "DB"],
+        "condition":"AND"
+      },
+      {
+        "path":"settings.php.txt",
+        "content":["DB_NAME", "DB"],
+        "condition":"AND"
+      },
+      {
+        "path":"settings.php.swp",
+        "content":["DB_NAME", "DB"],
+        "condition":"AND"
+      },
+      {
+        "path":"settings.php.old",
+        "content":["DB_NAME", "DB"],
+        "condition":"AND"
+      },
+      {
+        "path":"settings.php.dist",
+        "content":["DB_NAME", "DB"],
+        "condition":"AND"
+      },
+      {
+        "path":"backup.sql",
+        "content":["INSERT INTO", "TABLE", "DROP", "CREATE"]
+      },
+      {
+        "path":"database.sql",
+        "content":["INSERT INTO", "TABLE", "DROP", "CREATE"]
+      },
+      {
+        "path":"db_backup.sql",
+        "content":["INSERT INTO", "TABLE", "DROP", "CREATE"]
+      },
+      {
+        "path":"localhost.sql",
+        "content":["INSERT INTO", "TABLE", "DROP", "CREATE"]
+      },
+      {
+        "path":"mysqldump.sql",
+        "content":["INSERT INTO", "TABLE", "DROP", "CREATE"]
+      },
+      {
+        "path":"wp-content/uploads/dump.sql",
+        "content":["INSERT INTO", "TABLE", "DROP", "CREATE"]
+      },
+      {
+        "path":"airflow.cfg",
+        "content":["[core]", "[api]"]
+      },
+      {
+        "path":"api/v1/canal/config/1/1",
+        "content":["ncanal.aliyun.accessKey", "ncanal.aliyun.secretKey"]
+      },
+      {
+        "path":"Dockerrun.aws.json",
+        "content":["AWSEBDockerrunVersion"]
+      },
+      {
+        "path":"ansible.cfg",
+        "content":["[defaults]", "[inventory]"]
+      },
+      {
+        "path":"apache.conf",
+        "content":["<Directory", "<VirtualHost"]
+      },
+      {
+        "path":"awstats.conf",
+        "content":["AWSTATS CONFIGURE"]
+      },
+      {
+        "path":"awstats.pl",
+        "content":["application/x-perl"]
+      },
+      {
+        "path":"logs/awstats.pl",
+        "content":["application/x-perl"]
+      },
+      {
+        "path":".circleci/config.yml",
+        "content":["version:", "jobs:"]
+      },
+      {
+        "path":".circleci/ssh-config",
+        "content":["IdentityFile"]
+      },
+      {
+        "path":"CGI/Java/Serviceability?adapter=device.statistics.configuration",
+        "content":["Network Configuration"]
+      },
+      {
+        "path":"_vti_bin/Authentication.asmx?op=Mode",
+        "content":["Authentication Web Service"]
+      },
+      {
+        "path":"BitKeeper/etc/config",
+        "content":["BitKeeper configuration"]
+      },
+      {
+        "path":".hg/hgrc",
+        "content":["[paths]", "default"]
+      },
+      {
+        "path":".vscode/",
+        "content":["Index of /.vscode"]
+      },
+      {
+        "path":"ftpsync.settings",
+        "content":["overwrite_newer_prevention"]
+      },
+      {
+        "path":"js../.git/config",
+        "content":["[core]"]
+      },
+      {
+        "path":"css../.git/config",
+        "content":["[core]"]
+      },
+      {
+        "path":"assets../.git/config",
+        "content":["[core]"]
+      },
+      {
+        "path":"client_secrets.json",
+        "content":["client_id", "auth_uri", "token_uri"]
+      },
+      {
+        "path":"metrics",
+        "content":["cpu_seconds_total"]
+      },
+      {
+        "path":".htpasswd",
+        "content":[":{SHA}"]
+      },
+      {
+        "path":"httpd.conf",
+        "content":["LoadModule"]
+      },
+      {
+        "path":".env",
+        "content":["APP_NAME", "APP_ENV", "APP_ENV", "APP_KEY", "APP_DEBUG"]
+      },
+      {
+        "path":".env.dev.local",
+        "content":["APP_NAME", "APP_ENV", "APP_ENV", "APP_KEY", "APP_DEBUG"]
+      },
+      {
+        "path":".env.production.local",
+        "content":["APP_NAME", "APP_ENV", "APP_ENV", "APP_KEY", "APP_DEBUG"]
+      },
+      {
+        "path":".env.live",
+        "content":["APP_NAME", "APP_ENV", "APP_ENV", "APP_KEY", "APP_DEBUG"]
+      },
+      {
+        "path":".env.local",
+        "content":["APP_NAME", "APP_ENV", "APP_ENV", "APP_KEY", "APP_DEBUG"]
+      },
+      {
+        "path":"app/etc/local.xml",
+        "content":["Magento"]
+      },
+      {
+        "path":"store/app/etc/local.xml",
+        "content":["Magento"]
+      },
+      {
+        "path":"package.json",
+        "content":["version"]
+      },
+      {
+        "path":"package-lock.json",
+        "content":["version"]
+      },
+      {
+        "path":"perl-status",
+        "content":["<title>Apache2::Status"]
+      },
+      {
+        "path":"infophp.php",
+        "content":["PHP Extension"]
+      },
+      {
+        "path":"php_info.php",
+        "content":["PHP Extension"]
+      },
+      {
+        "path":"old_phpinfo.php",
+        "content":["PHP Extension"]
+      },
+      {
+        "path":"s3cmd.ini",
+        "content":["[default]"]
+      },
+      {
+        "path":".ssh/authorized_keys",
+        "content":["ssh-dss", "ssh-ed25519", "ssh-rsa", "ecdsa-sha2-nistp256"]
+      },
+      {
+        "path":"_/.ssh/authorized_keys",
+        "content":["ssh-dss", "ssh-ed25519", "ssh-rsa", "ecdsa-sha2-nistp256"]
+      },
+      {
+        "path":".ssh/known_hosts",
+        "content":["ssh-dss", "ssh-ed25519", "ssh-rsa", "ecdsa-sha2-nistp256"]
+      },
+      {
+        "path":"_profiler/phpinfo.php",
+        "content":["$_SERVER['SERVER_NAME']", "$_ENV['APP_SECRET']", "$_ENV['SYMFONY_DOTENV_VARS']"]
+      },
+      {
+        "path":"_profiler/empty/search/results?limit=10",
+        "content":["Symfony Profiler"]
+      },
+      {
+        "path":"web.config",
+        "content":["<configuration>"]
+      },
+      {
+        "path":"libraries/joomla/database/",
+        "content":["Index of /libraries/joomla/database"]
+      },
+      {
+        "path":"yarn.lock",
+        "content":["THIS IS AN AUTOGENERATED FILE. DO NOT EDIT THIS FILE DIRECTLY."]
+      },
+      {
+        "path":"npm-debug.log",
+        "content":["info it worked if it ends with ok"]
+      },
+      {
+        "path":"OA_HTML/bin/sqlnet.log",
+        "content":["DESCRIPTION="]
+      },
+      {
+        "path":"_debugbar/open?max=20&offset=0",
+        "content":["datetime"]
+      },
+      {
+        "path":"php.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"phpinfo.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"info.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"infophp.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"php_info.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"pinfo.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"phpversion.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"old_phpinfo.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"php-info.php",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"php.ini",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+      {
+        "path":"user.ini",
+        "content":["PHP Extension", "PHP Version"],
+        "condition":"AND"
+      },
+
+      {
+        "path":".build.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":".jenkins.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":".travis.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"install.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"update.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"config.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"build.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"setup.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"run.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"backup.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"compile.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"env.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"init.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"startup.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"wp-setup.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"deploy.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"aws.sh",
+        "content":["bin", "bash"],
+        "condition":"OR"
+      },
+      {
+        "path":"storage",
+        "content":["Index of", "oauth-private.key"],
+        "condition":"AND"
+      },
+      {
+        "path":"api_smartapp/storage",
+        "content":["Index of", "oauth-private.key"],
+        "condition":"AND"
+      },
+      {
+        "path":"equipbid/storage",
+        "content":["Index of", "oauth-private.key"],
+        "condition":"AND"
+      },
+      {
+        "path":"server/storage",
+        "content":["Index of", "oauth-private.key"],
+        "condition":"AND"
+      },
+      {
+        "path":"intikal/storage",
+        "content":["Index of", "oauth-private.key"],
+        "condition":"AND"
+      },
+      {
+        "path":"elocker_old/storage",
+        "content":["Index of", "oauth-private.key"],
+        "condition":"AND"
+      },
+      {
+        "path":"wp-content/debug.log",
+        "content":["on line"]
+      },
+      {
+        "path":"telescope",
+        "content":["<strong>Laravel</strong> Telescope"],
+        "type":"laravel_config"
+      },
+      {
+        "path":"config/initializers/secret_token.rb",
+        "content":["secret_key_base =","config.secret_token ="],
+        "type":"keys",
+        "condition":"OR"
+      },
+      {
+        "path":"bower.json",
+        "content":["name","version"],
+        "condition":"AND"
+      },
+      {
+        "path":"README.md",
+        "content":["```","`","!",">","#","##","###"],
+        "condition":"OR"
+      },
+      {
+        "path":"readme.md",
+        "content":["```","`","!",">","#","##","###"],
+        "condition":"OR"
+      },
+      {
+        "path":".bash_history",
+        "content":["ls","pwd","cd","cat","cp","mv","mkdir","rmdir","rm","touch","sudo","chmod","tar","chown","git","echo"],
+        "condition":"OR"
+      }
+    ]
+  } 
+  

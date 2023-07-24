@@ -1,0 +1,241 @@
+{
+  "logins": [
+    {
+      "path":"ucmdb-ui/cms/loginRequest.do;",
+      "content":["LWSSO_COOKIE_KEY"],
+      "method":"POST",
+      "requestBodyPayload":"customerID=1&isEncoded=false&userName=diagnostics&password=YWRtaW4=&ldapServerName=UCMDB",
+      "target":["HEADER"]
+    },
+    {
+      "path":"admin/",
+      "content":["Welcome to the Apache ActiveMQ Console of"],
+      "method":"GET",
+      "requestHeaderName":"Authorization",
+      "requestHeaderValue":"Basic YWRtaW46YWRtaW4=",
+      "target":["BODY"]
+    },
+    {
+      "path":"api/v1/user/login",
+      "content":["data\":{\"token\"", "\"code\":20000"],
+      "method":"POST",
+      "requestBodyPayload":"{\"username\":\"admin\",\"password\":\"123456\"}",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/json",
+      "target":["BODY"],
+      "condition":"AND"
+    },
+    {
+      "path":"api/v1/users/admin?fields=*,privileges/PrivilegeInfo/cluster_name,privileges/PrivilegeInfo/permission_name",
+      "content":["\"Users\" : {", "AMBARI."],
+      "method":"GET",
+      "requestHeaderName":"Authorization",
+      "requestHeaderValue":"Basic YWRtaW46YWRtaW4=",
+      "target":["BODY"],
+      "condition":"AND"
+    },
+    {
+      "path":"api/user/login",
+      "content":["\"message\": \"success\"", "\"username\": \"admin\""],
+      "method":"POST",
+      "requestBodyPayload":"{\"username\":\"admin\",\"password\":\"arlpass\"}",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/json; charset=UTF-8",
+      "target":["BODY"],
+      "condition":"AND"
+    },
+    {
+      "path":"axis2-admin/login",
+      "content":["Welcome to Axis2 Web Admin Module !!"],
+      "method":"POST",
+      "requestBodyPayload":"userName=admin&password=axis2&submit=+Login+",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["BODY"]
+    },
+    {
+      "path":"axis2/axis2-admin/login",
+      "content":["Welcome to Axis2 Web Admin Module !!"],
+      "method":"POST",
+      "requestBodyPayload":"userName=admin&password=axis2&submit=+Login+",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["BODY"]
+    },
+    {
+      "path":"cu.html",
+      "content":["/menu.gch"],
+      "method":"POST",
+      "requestBodyPayload":"frashnum=&action=login&Frm_Logintoken=1&Username=CUAdmin&Password=CUAdmin&Username=&Password=",
+      "target":["HEADER"]
+    },
+    {
+      "path":"data/login",
+      "content":["<authResult>0</authResult>"],
+      "method":"POST",
+      "requestBodyPayload":"user=root&password=calvin",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["BODY"]
+    },
+    {
+      "path":"login.php",
+      "content":["You have logged in as 'admin'"],
+      "method":"POST",
+      "requestBodyPayload":"username=admin&password=password&Login=Login&user_token='hidden' name='user_token' value='admin'",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["BODY"]
+    },
+    {
+      "path":"api/proxy/tcp",
+      "content":["proxies"],
+      "method":"GET",
+      "requestHeaderName":"Authorization",
+      "requestHeaderValue":"Basic YWRtaW46YWRtaW4=",
+      "target":["BODY"]
+    },
+    {
+      "path":"oauth/token",
+      "content":["\"access_token\":", "\"token_type\":", "\"refresh_token\":"],
+      "method":"POST",
+      "requestBodyPayload":"{\"grant_type\":\"password\",\"username\":\"admin\",\"password\":\"12345\"}",
+      "target":["BODY"]
+    },
+    {
+      "path":"nagios/side.php",
+      "content":["Current Status", "Reports"],
+      "method":"GET",
+      "requestHeaderName":"Authorization",
+      "requestHeaderValue":"Basic bmFnaW9zYWRtaW46bmFnaW9zYWRtaW4=",
+      "target":["BODY"],
+      "condition":"AND"
+    },
+    {
+      "path":"service/rapture/session",
+      "content":["Server: Nexus", "NXSESSIONID"],
+      "method":"POST",
+      "requestBodyPayload":"username=YWRtaW4%3D&password=YWRtaW4xMjM%3D",
+      "requestHeaderName":"X-Nexus-UI",
+      "requestHeaderValue":"true",
+      "target":["HEADER"],
+      "condition":"AND"
+    },
+    {
+      "path":"login/verify",
+      "content":["\"msg\": \"login success\"", "\"msg\": \"login success\""],
+      "method":"POST",
+      "requestBodyPayload":"username=admin&password=123",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["BODY"]
+    },
+    {
+      "path":"control/login",
+      "content":["ofbiz-pagination-template"],
+      "method":"POST",
+      "requestBodyPayload":"USERNAME=admin&PASSWORD=ofbiz&FTOKEN=&JavaScriptEnabled=Y",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["BODY"]
+    },
+    {
+      "path":"login/userverify.cgi",
+      "content":["<META HTTP-EQUIV=REFRESH CONTENT=\"0;URL=/index.htm\">", "urn:schemas-microsoft-com:vml"],
+      "method":"POST",
+      "requestBodyPayload":"------WebKitFormBoundaryAjZMsILtbrBp8VbC\nContent-Disposition: form-data; name=\"username\"\n\n------WebKitFormBoundaryAjZMsILtbrBp8VbC\nContent-Disposition: form-data; name=\"password\"\n\npanabit\n------WebKitFormBoundaryAjZMsILtbrBp8VbC--",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"multipart/form-data; boundary=----WebKitFormBoundaryAjZMsILtbrBp8VbC",
+      "target":["BODY"],
+      "condition":"AND"
+    },
+    {
+      "path":"api/whoami",
+      "content":["{\"name\":\"guest\"", "application/json"],
+      "method":"GET",
+      "requestHeaderName":"Authorization",
+      "requestHeaderValue":"Basic Z3Vlc3Q6Z3Vlc3Q",
+      "target":["BODY", "HEADER"]
+    },
+    {
+      "path":"index.php?action=login.index",
+      "content":["Location: /index.php?action=admin.index&host=0", "Set-Cookie: ROCK_LANG="],
+      "method":"POST",
+      "requestBodyPayload":"more=0&host=0&username=admin&password=admin&db=&lang=en_us&expire=3",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["HEADER"]
+    },
+    {
+      "path":"main.ehp",
+      "content":["document.formParent2.changepasswd1.value", "passwd_change.ehp"],
+      "method":"POST",
+      "requestBodyPayload":"httpd;General;lang=en&login_id=root&login_pw=sweap12~",
+      "target":["BODY"]
+    },
+    {
+      "path":"server/index.php?s=/api/user/login",
+      "content":["\"username\":\"showdoc\"", "\"user_token\":"],
+      "method":"POST",
+      "requestBodyPayload":"username=showdoc&password=123456&v_code=",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded;charset=UTF-8",
+      "target":["BODY"],
+      "condition":"AND"
+    },
+    {
+      "path":"SolarWinds/InformationService/v3/Json/Query?query=SELECT+Uri+FROM+Orion.Pollers+ORDER+BY+PollerID+WITH+ROWS+1+TO+3+WITH+TOTALROWS",
+      "content":["Orion\\.", "totalRows"],
+      "method":"GET",
+      "requestHeaderName":"Authorization",
+      "requestHeaderValue":"Basic YWRtaW46",
+      "target":["BODY"],
+      "condition":"AND"
+    },
+    {
+      "path":"login",
+      "content":["You should be redirected automatically to target URL: <a href=\"/\">/</a>"],
+      "method":"POST",
+      "requestBodyPayload":"email=springbird@qq.com&password=springbird&remeber=true",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded",
+      "target":["BODY"]
+    },
+    {
+      "path":"ViewPoint/admin/Site/ViewPointLogin",
+      "content":["\"authorized\":true"],
+      "method":"POST",
+      "requestBodyPayload":"{u:\"admin\", t:\"undefined\", p:\"trilithic\", d:\"\", r:false, w:false}",
+      "requestHeaderName":"Cookie",
+      "requestHeaderValue":"trilithic_win_auth=false",
+      "target":["BODY"]
+    },
+    {
+      "path":"xxl-job-admin/login",
+      "content":["XXL_JOB_LOGIN_IDENTITY"],
+      "method":"POST",
+      "requestBodyPayload":"userName=admin&password=123456",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded; charset=UTF-8",
+      "target":["HEADER"]
+    },
+    {
+      "path":"index.php",
+      "content":["zabbix.php?action=dashboard.view"],
+      "method":"POST",
+      "requestBodyPayload":"name=Admin&password=zabbix&autologin=1&enter=Sign+in",
+      "requestHeaderName":"Content-Type",
+      "requestHeaderValue":"application/x-www-form-urlencoded; charset=UTF-8",
+      "target":["BODY"]
+    },
+    {
+      "path":"ZMC_Admin_Login",
+      "content":["ZMC - Backup Set Management"],
+      "method":"POST",
+      "requestBodyPayload":"login=AEE&last_page=&username=admin&password=admin&submit=Login&JS_SWITCH=JS_ON",
+      "requestHeaderName":"Cookie",
+      "requestHeaderValue":"zmc_cookies_enabled=true",
+      "target":["BODY"]
+    }
+  ]
+}
