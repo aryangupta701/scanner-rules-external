@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.astrascripts;
+package org.zaproxy.addon.astrascripts.pscanrules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.addon.astrascripts.pscanrules.utils.Verhoeff;
 import org.zaproxy.addon.commonlib.PiiUtils;
 import org.zaproxy.addon.commonlib.binlist.BinList;
 import org.zaproxy.addon.commonlib.binlist.BinRecord;
@@ -42,8 +43,8 @@ import org.zaproxy.zap.extension.pscan.PassiveScanThread;
 import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
 
 /**
- * A scanner to passively scan for the presence of PII in response Currently only credit card
- * numbers
+ * A scanner to passively scan for the presence of PII in response Currently only credit card,
+ * Aadhar Card and Pan Card numbers
  *
  * @author Michael Kruglos (@michaelkruglos)
  */
@@ -57,6 +58,57 @@ public class PiiScanRule extends PluginPassiveScanner {
     private static final int PLUGIN_ID = 991210062;
 
     public Map<String, String> ALERT_TAGS = new HashMap<>();
+
+    private static final String BODY_KEYWORDS_REGEX =
+            "(?i)\\b(?:credit|card|aadha?ar|cvv2?|cc|payment|transactions?|sensitive|verify|security|verification|pin|cvc2|cid|cvn|creditcard|profile|payment|account|details|pan|user|credentials?|identification|identity|authentication|ssn)\\b";
+
+    private static final String URL_KEYWORDS_REGEX =
+            "(?i)\\b(?:setting|preference|admin|dashboard|upload|profile|backup|config|log|member|private|db|users?|auth|authentication|edit)\\b";
+
+    private enum IdentityCard { // i
+        AADHAR("Aadhaar", "\\b(?:[2-9][0-9]{11})\\b", true),
+        PANCARD("Pancard", "(?i)\\b(?:[A-Z]{3}[PCHABGJLFT][A-Z][0-9]{4}[A-Z])\\b", false);
+
+        private final String name;
+        private final Pattern pattern;
+        private final boolean isNumberSequence;
+
+        IdentityCard(String name, String regex, boolean isNumberSequence) {
+            this.name = name;
+            this.pattern = Pattern.compile(regex);
+            this.isNumberSequence = isNumberSequence;
+        }
+
+        public Matcher matcher(String cc) {
+            return pattern.matcher(cc);
+        }
+
+        /*
+         * Validates the given identity card based on its type.
+         *
+         * @param id the string to be checked.
+         * @return true if the identity card is valid, false otherwise.
+         * @throws IllegalArgumentException if an invalid card type is provided.
+         */
+        public boolean isValid(String id) {
+            switch (name) {
+                case "Aadhaar":
+                    return Verhoeff.validateVerhoeff(id);
+                default:
+                    // no method to validate that particular card
+                    return true;
+            }
+        }
+
+        public boolean getIsNumberSequence() {
+            return isNumberSequence;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
     private enum CreditCard {
         AMERICAN_EXPRESS("American Express", "\\b(?:3[47][0-9]{13})\\b"),
@@ -107,19 +159,66 @@ public class PiiScanRule extends PluginPassiveScanner {
         }
 
         String responseBody = getResponseBodyWithStylesRemoved(source);
+        if (!findBodyKeywords(responseBody, 1)) {
+            return;
+        }
+        int confidence = 1;
+        if (findUrlKeywords(msg.getRequestHeader().getHeadersAsString(), 1)) {
+            confidence += 1;
+        }
+
         List<Candidate> candidates = getNumberSequences(responseBody);
         for (Candidate candidate : candidates) {
             for (CreditCard cc : CreditCard.values()) {
                 Matcher matcher = cc.matcher(candidate.getCandidate());
                 while (matcher.find()) {
                     String evidence = matcher.group();
-                    if (PiiUtils.isValidLuhn(evidence) && !isSci(candidate.getContainingString())) {
+                    if (PiiUtils.isValidLuhn(evidence)) {
                         BinRecord binRec = BinList.getSingleton().get(evidence);
-                        raiseAlert(msg, evidence, cc.name, binRec);
+                        raiseAlert(msg, evidence, cc.name, binRec, confidence);
+                    }
+                }
+            }
+            for (IdentityCard ic : IdentityCard.values()) {
+                if (!ic.getIsNumberSequence()) {
+                    Matcher matcher = ic.matcher(responseBody);
+                    while (matcher.find()) {
+                        String evidence = matcher.group().replace("[-/s]", "");
+                        if (ic.isValid(evidence) && !isSci(candidate.getContainingString())) {
+                            confidence += 1;
+                            raiseAlert(msg, evidence, ic.name, null, confidence);
+                        }
+                    }
+                } else {
+                    Matcher matcher = ic.matcher(candidate.getCandidate());
+                    while (matcher.find()) {
+                        String evidence = matcher.group().replace("[-/s]", "");
+                        // Check if the evidence is valid based on the identity card's criteria,
+                        if (ic.isValid(evidence) && !isSci(candidate.getContainingString())) {
+                            confidence += 1;
+                            raiseAlert(msg, evidence, ic.name, null, confidence);
+                        }
                     }
                 }
             }
         }
+    }
+
+    private static boolean findBodyKeywords(String responseBody, int minMatches) {
+        return findKeywords(responseBody, minMatches, BODY_KEYWORDS_REGEX);
+    }
+
+    private static boolean findUrlKeywords(String responseBody, int minMatches) {
+        return findKeywords(responseBody, minMatches, URL_KEYWORDS_REGEX);
+    }
+
+    private static boolean findKeywords(String responseBody, int minMatches, String regex) {
+        Matcher matcher = Pattern.compile(regex).matcher(responseBody);
+        while (matcher.find()) {
+            minMatches -= 1;
+            if (minMatches == 0) return true;
+        }
+        return false;
     }
 
     private static String getResponseBodyWithStylesRemoved(Source source) {
@@ -154,14 +253,21 @@ public class PiiScanRule extends PluginPassiveScanner {
         return true;
     }
 
-    private void raiseAlert(HttpMessage msg, String evidence, String cardType, BinRecord binRec) {
+    private void raiseAlert(
+            HttpMessage msg, String evidence, String cardType, BinRecord binRec, int confidence) {
         String other = Constant.messages.getString(MESSAGE_PREFIX + "extrainfo", cardType);
         if (binRec != null) {
             other = other + '\n' + getBinRecString(binRec);
+            confidence += 1;
         }
         newAlert()
                 .setRisk(Alert.RISK_HIGH)
-                .setConfidence(binRec != null ? Alert.CONFIDENCE_HIGH : Alert.CONFIDENCE_MEDIUM)
+                // Confidence is set to high if we found the BIN Record
+                // We can force it by using isHighConfidence flag
+                .setConfidence(
+                        confidence <= 1
+                                ? Alert.CONFIDENCE_LOW
+                                : confidence == 2 ? Alert.CONFIDENCE_MEDIUM : Alert.CONFIDENCE_HIGH)
                 .setDescription(Constant.messages.getString(MESSAGE_PREFIX + "desc"))
                 .setOtherInfo(other)
                 .setEvidence(evidence)
@@ -199,7 +305,7 @@ public class PiiScanRule extends PluginPassiveScanner {
     }
 
     private static List<Candidate> getNumberSequences(String inputString, int minSequence) {
-        String regexString = String.format("(?:\\d{%d,}[\\s]*)+", minSequence);
+        String regexString = String.format("(?:\\d{%d,}[\\s-]*)+", minSequence);
         // Use RE2/J to avoid StackOverflowError when the response has many numbers.
         com.google.re2j.Matcher matcher =
                 com.google.re2j.Pattern.compile(regexString).matcher(inputString);
@@ -208,14 +314,14 @@ public class PiiScanRule extends PluginPassiveScanner {
             int proposedEnd = matcher.end() + 3;
             result.add(
                     new Candidate(
-                            matcher.group().replaceAll("\\s+", ""),
+                            matcher.group().replaceAll("[\\s-]+", ""),
                             inputString
                                     .substring(
                                             matcher.start(),
                                             inputString.length() > proposedEnd
                                                     ? matcher.end() + 3
                                                     : inputString.length())
-                                    .replaceAll("\\s+", "")));
+                                    .replaceAll("[\\s-]+", "")));
         }
         return result;
     }

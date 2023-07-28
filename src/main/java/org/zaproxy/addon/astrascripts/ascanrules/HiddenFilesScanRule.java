@@ -20,7 +20,7 @@
  *
  * @author kingthorin+owaspzap@gmail.com
  */
-package org.zaproxy.addon.astrascripts;
+package org.zaproxy.addon.astrascripts.ascanrules;
 
 // To Do - Fix Meta Data in otherInfo field
 
@@ -50,6 +50,8 @@ import org.parosproxy.paros.network.HttpHeader;
 import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpRequestHeader;
 import org.parosproxy.paros.network.HttpStatusCode;
+import org.zaproxy.addon.astrascripts.ExtensionAstraScripts;
+import org.zaproxy.addon.astrascripts.astraAddOnConstants;
 
 public class HiddenFilesScanRule extends AbstractHostPlugin {
 

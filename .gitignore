@@ -49,3 +49,5 @@ RemoteSystemsTempFiles/
 # Dev
 # --------
 scanner-rules-release.zap
+copyScanRule
+start
