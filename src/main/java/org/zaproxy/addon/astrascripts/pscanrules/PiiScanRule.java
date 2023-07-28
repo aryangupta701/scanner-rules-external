@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.astrascripts.pscanrules;
+package org.zaproxy.addon.astrascripts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +35,8 @@ import org.apache.logging.log4j.Logger;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.addon.astrascripts.pscanrules.utils.Verhoeff;
 import org.zaproxy.addon.commonlib.PiiUtils;
+import org.zaproxy.addon.commonlib.Verhoeff;
 import org.zaproxy.addon.commonlib.binlist.BinList;
 import org.zaproxy.addon.commonlib.binlist.BinRecord;
 import org.zaproxy.zap.extension.pscan.PassiveScanThread;
@@ -67,7 +67,7 @@ public class PiiScanRule extends PluginPassiveScanner {
 
     private enum IdentityCard { // i
         AADHAR("Aadhaar", "\\b(?:[2-9][0-9]{11})\\b", true),
-        PANCARD("Pancard", "(?i)\\b(?:[A-Z]{3}[PCHABGJLFT][A-Z][0-9]{4}[A-Z])\\b", false);
+        PANCARD("PAN", "(?i)\\b(?:[A-Z]{3}[PCHABGJLFT][A-Z][0-9]{4}[A-Z])\\b", false);
 
         private final String name;
         private final Pattern pattern;
