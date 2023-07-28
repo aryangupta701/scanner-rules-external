@@ -51,7 +51,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
     int numSuffixesToTry = 0;
     int numPrefixesToTry = 0;
     boolean doSwitchFileExtension = false;
-    static final double MIN_MATCH = 0.; // For 100% match
+    static final double MIN_MATCH = 0.8; // For 80% match
 
     public Map<String, String> ALERT_TAGS = new HashMap<>();
 
