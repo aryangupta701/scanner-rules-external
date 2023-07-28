@@ -28,6 +28,7 @@ import java.util.Set;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.similarity.JaccardSimilarity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.parosproxy.paros.Constant;
@@ -50,6 +51,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
     int numSuffixesToTry = 0;
     int numPrefixesToTry = 0;
     boolean doSwitchFileExtension = false;
+    static final double MIN_MATCH = 0.; // For 100% match
 
     public Map<String, String> ALERT_TAGS = new HashMap<>();
 
@@ -734,6 +736,13 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                 if (!isWithinThreshold(requestmsg)) {
                     continue;
                 }
+                if (checkSimilarityWithRandomSuffix(
+                        candidateBackupFileURI,
+                        requestmsg.getResponseBody().toString(),
+                        originalMessage,
+                        MIN_MATCH)) {
+                    continue;
+                }
                 byte[] disclosedData = requestmsg.getResponseBody().getBytes();
                 int requestStatusCode = requestmsg.getResponseHeader().getStatusCode();
 
@@ -783,6 +792,19 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                 if (!isWithinThreshold(requestmsg)) {
                     continue;
                 }
+                // If the context is of html type then we can skip this
+                if (requestmsg.getResponseHeader().hasContentType("text/html")) {
+                    continue;
+                }
+
+                if (checkSimilarityWithRandomSuffix(
+                        candidateBackupFileURI,
+                        requestmsg.getResponseBody().toString(),
+                        originalMessage,
+                        MIN_MATCH)) {
+                    continue;
+                }
+
                 byte[] disclosedData = requestmsg.getResponseBody().getBytes();
                 int requestStatusCode = requestmsg.getResponseHeader().getStatusCode();
                 // If the response is empty it's probably not really a backup
@@ -825,6 +847,53 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                     originalMessage.getRequestHeader().getURI(),
                     e);
         }
+    }
+
+    /**
+     * Checks whether we are getting the same result with a random string appended as well. If we
+     * get the same result, it means the original result should be ignored. Returns true if both the
+     * original response and the response with the random string appended are the same.
+     */
+    private boolean checkSimilarityWithRandomSuffix(
+            URI candidateBackupFileURI,
+            String disclosedString,
+            HttpMessage originalMessage,
+            double match) {
+        String randomString = "ah35aog12512525nao3245wrhnwqg23r2er";
+        try {
+            candidateBackupFileURI.setPath(candidateBackupFileURI.getPath() + randomString);
+            LOG.debug("Trying with random suffix backup file path: {}", candidateBackupFileURI);
+            HttpMessage requestmsg = new HttpMessage(candidateBackupFileURI);
+
+            setMessageCookies(requestmsg, originalMessage);
+            sendAndReceive(requestmsg, false);
+
+            if (!isWithinThreshold(requestmsg)) {
+                return false;
+            }
+
+            String randomDisclosedString = requestmsg.getResponseBody().toString();
+            double similarity = findSimilarity(disclosedString, randomDisclosedString);
+            return similarity >= match;
+        } catch (Exception e) {
+            LOG.debug(
+                    "Could not check backup files with random string as prefix: {}",
+                    e.getMessage());
+            // If there is a runtime exception during processing, it indicates that both URIs
+            // produced different responses, so the function returns false.
+            return false;
+        }
+    }
+
+    /**
+     * Calculates the similarity between the two strings and returns a value ranging from 0 to 1,
+     * where 0 represents a 0% match (completely dissimilar) and 1 represents a 100% match
+     * (identical).
+     */
+    private static double findSimilarity(String sequence1, String sequence2) {
+        JaccardSimilarity jaccardSimilarity = new JaccardSimilarity();
+        double similarity = jaccardSimilarity.apply(sequence1, sequence2);
+        return similarity;
     }
 
     private static void setMessageCookies(HttpMessage newMsg, HttpMessage originalMsg) {
