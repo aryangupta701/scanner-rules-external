@@ -736,6 +736,11 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                 if (!isWithinThreshold(requestmsg)) {
                     continue;
                 }
+                // If the context is of html type then we can skip this
+                if (requestmsg.getResponseHeader().hasContentType("text/html")) {
+                    continue;
+                }
+
                 if (checkSimilarityWithRandomSuffix(
                         candidateBackupFileURI,
                         requestmsg.getResponseBody().toString(),
