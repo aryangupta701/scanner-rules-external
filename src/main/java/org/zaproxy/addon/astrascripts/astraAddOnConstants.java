@@ -3,6 +3,8 @@ package org.zaproxy.addon.astrascripts;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.parosproxy.paros.network.HttpMessage;
@@ -69,6 +71,14 @@ public class astraAddOnConstants {
                 return false;
             }
         }
+    }
+
+    // Checks if the response is Html content or not
+    public static boolean isHtmlResponse(HttpMessage requestmsg) {
+        String responseBody = requestmsg.getResponseBody().toString();
+        String regex = "<\\/?[a-z][\\s\\S]*>";
+        Matcher matcher = Pattern.compile(regex).matcher(responseBody);
+        return matcher.find();
     }
 
     // utility for #2: compare two strings function and return ratio
