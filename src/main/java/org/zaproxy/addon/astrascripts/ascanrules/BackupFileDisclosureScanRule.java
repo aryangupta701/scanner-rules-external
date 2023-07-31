@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -738,7 +736,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                     continue;
                 }
                 // If the content is of html type then we can skip this
-                if (isHtmlResponse(requestmsg)) {
+                if (astraAddOnConstants.isHtmlResponse(requestmsg)) {
                     continue;
                 }
 
@@ -792,7 +790,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                     continue;
                 }
                 // If the content is of html type then we can skip this
-                if (isHtmlResponse(requestmsg)) {
+                if (astraAddOnConstants.isHtmlResponse(requestmsg)) {
                     continue;
                 }
 
@@ -838,14 +836,6 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                     originalMessage.getRequestHeader().getURI(),
                     e);
         }
-    }
-
-    // Checks if the response is Html content or not
-    private boolean isHtmlResponse(HttpMessage requestmsg) {
-        String responseBody = requestmsg.getResponseBody().toString();
-        String regex = "<\\/?[a-z][\\s\\S]*>";
-        Matcher matcher = Pattern.compile(regex).matcher(responseBody);
-        return matcher.find();
     }
 
     private static void setMessageCookies(HttpMessage newMsg, HttpMessage originalMsg) {
