@@ -292,12 +292,12 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
 
     @Override
     public String getName() {
-        return Constant.messages.getString("ascanbeta.backupfiledisclosure.name");
+        return Constant.messages.getString("astraScripts.ascanbeta.backupfiledisclosure.name");
     }
 
     @Override
     public String getDescription() {
-        return Constant.messages.getString("ascanbeta.backupfiledisclosure.desc");
+        return Constant.messages.getString("astraScripts.ascanbeta.backupfiledisclosure.desc");
     }
 
     @Override
@@ -315,7 +315,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
 
     @Override
     public String getReference() {
-        return Constant.messages.getString("ascanbeta.backupfiledisclosure.refs");
+        return Constant.messages.getString("astraScripts.ascanbeta.backupfiledisclosure.refs");
     }
 
     @Override
@@ -351,7 +351,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
 
     @Override
     public void scan() {
-        LOG.info("scan started" + "ascanbeta.backupfiledisclosure.");
+        LOG.info("scan started" + "astraScripts.ascanbeta.backupfiledisclosure.name");
         ALERT_TAGS.put("rule-override", "10095");
         LOG.debug("Attacking at Attack Strength: {}", this.getAttackStrength());
         LOG.debug(
@@ -699,6 +699,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                         break; // out of the loop.
                     }
                 }
+                counted = 0;
                 for (String filePrefixToTry : filePrefixes) {
                     // inject the directory prefix at positionDirectorySuffixInjection
                     String candidateBackupFilePath =
@@ -716,7 +717,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                                     null,
                                     null));
                     counted++;
-                    if (counted > numSuffixesToTry) {
+                    if (counted > numPrefixesToTry) {
                         break; // out of the loop.
                     }
                 }
@@ -734,6 +735,11 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                 if (!isWithinThreshold(requestmsg)) {
                     continue;
                 }
+                // If the content is of html type then we can skip this
+                if (astraAddOnConstants.isHtmlResponse(requestmsg)) {
+                    continue;
+                }
+
                 byte[] disclosedData = requestmsg.getResponseBody().getBytes();
                 int requestStatusCode = requestmsg.getResponseHeader().getStatusCode();
 
@@ -753,10 +759,10 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                             .setOtherInfo(originalMessage.getRequestHeader().getURI().toString())
                             .setSolution(
                                     Constant.messages.getString(
-                                            "ascanbeta.backupfiledisclosure.soln"))
+                                            "astraScripts.ascanbeta.backupfiledisclosure.soln"))
                             .setEvidence(
                                     Constant.messages.getString(
-                                            "ascanbeta.backupfiledisclosure.evidence",
+                                            "astraScripts.ascanbeta.backupfiledisclosure.evidence",
                                             originalURI,
                                             candidateBackupFileURI))
                             .setMessage(requestmsg)
@@ -783,6 +789,11 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                 if (!isWithinThreshold(requestmsg)) {
                     continue;
                 }
+                // If the content is of html type then we can skip this
+                if (astraAddOnConstants.isHtmlResponse(requestmsg)) {
+                    continue;
+                }
+
                 byte[] disclosedData = requestmsg.getResponseBody().getBytes();
                 int requestStatusCode = requestmsg.getResponseHeader().getStatusCode();
                 // If the response is empty it's probably not really a backup
@@ -798,15 +809,15 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                             .setConfidence(Alert.CONFIDENCE_MEDIUM)
                             .setName(
                                     Constant.messages.getString(
-                                            "ascanbeta.backupfiledisclosure.name"))
+                                            "astraScripts.ascanbeta.backupfiledisclosure.name"))
                             .setAttack(candidateBackupFileURI.toString())
                             .setOtherInfo(originalMessage.getRequestHeader().getURI().toString())
                             .setSolution(
                                     Constant.messages.getString(
-                                            "ascanbeta.backupfiledisclosure.soln"))
+                                            "astraScripts.ascanbeta.backupfiledisclosure.soln"))
                             .setEvidence(
                                     Constant.messages.getString(
-                                            "ascanbeta.backupfiledisclosure.evidence",
+                                            "astraScripts.ascanbeta.backupfiledisclosure.evidence",
                                             originalURI,
                                             candidateBackupFileURI))
                             .setMessage(requestmsg)
