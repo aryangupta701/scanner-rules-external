@@ -25,10 +25,11 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.text.similarity.JaccardSimilarity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.parosproxy.paros.Constant;
@@ -677,8 +678,8 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
 
             // for each directory suffix/prefix to try (using the file prefixes/suffixes - or
             // whatever the plural of prefix/suffix is)
-            counted = 0;
             if (pathbreak.length > 2) {
+                counted = 0;
                 // if there is a a parent folder to play with
                 for (String fileSuffixToTry : fileSuffixes) {
                     // inject the directory suffix at positionDirectorySuffixInjection
@@ -701,6 +702,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                         break; // out of the loop.
                     }
                 }
+                counted = 0;
                 for (String filePrefixToTry : filePrefixes) {
                     // inject the directory prefix at positionDirectorySuffixInjection
                     String candidateBackupFilePath =
@@ -718,7 +720,7 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                                     null,
                                     null));
                     counted++;
-                    if (counted > numSuffixesToTry) {
+                    if (counted > numPrefixesToTry) {
                         break; // out of the loop.
                     }
                 }
@@ -736,18 +738,11 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                 if (!isWithinThreshold(requestmsg)) {
                     continue;
                 }
-                // If the context is of html type then we can skip this
-                if (requestmsg.getResponseHeader().hasContentType("text/html")) {
+                // If the content is of html type then we can skip this
+                if (isHtmlResponse(requestmsg)) {
                     continue;
                 }
 
-                if (checkSimilarityWithRandomSuffix(
-                        candidateBackupFileURI,
-                        requestmsg.getResponseBody().toString(),
-                        originalMessage,
-                        MIN_MATCH)) {
-                    continue;
-                }
                 byte[] disclosedData = requestmsg.getResponseBody().getBytes();
                 int requestStatusCode = requestmsg.getResponseHeader().getStatusCode();
 
@@ -797,16 +792,8 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
                 if (!isWithinThreshold(requestmsg)) {
                     continue;
                 }
-                // If the context is of html type then we can skip this
-                if (requestmsg.getResponseHeader().hasContentType("text/html")) {
-                    continue;
-                }
-
-                if (checkSimilarityWithRandomSuffix(
-                        candidateBackupFileURI,
-                        requestmsg.getResponseBody().toString(),
-                        originalMessage,
-                        MIN_MATCH)) {
+                // If the content is of html type then we can skip this
+                if (isHtmlResponse(requestmsg)) {
                     continue;
                 }
 
@@ -854,51 +841,12 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
         }
     }
 
-    /**
-     * Checks whether we are getting the same result with a random string appended as well. If we
-     * get the same result, it means the original result should be ignored. Returns true if both the
-     * original response and the response with the random string appended are the same.
-     */
-    private boolean checkSimilarityWithRandomSuffix(
-            URI candidateBackupFileURI,
-            String disclosedString,
-            HttpMessage originalMessage,
-            double match) {
-        String randomString = "ah35aog12512525nao3245wrhnwqg23r2er";
-        try {
-            candidateBackupFileURI.setPath(candidateBackupFileURI.getPath() + randomString);
-            LOG.debug("Trying with random suffix backup file path: {}", candidateBackupFileURI);
-            HttpMessage requestmsg = new HttpMessage(candidateBackupFileURI);
-
-            setMessageCookies(requestmsg, originalMessage);
-            sendAndReceive(requestmsg, false);
-
-            if (!isWithinThreshold(requestmsg)) {
-                return false;
-            }
-
-            String randomDisclosedString = requestmsg.getResponseBody().toString();
-            double similarity = findSimilarity(disclosedString, randomDisclosedString);
-            return similarity >= match;
-        } catch (Exception e) {
-            LOG.debug(
-                    "Could not check backup files with random string as prefix: {}",
-                    e.getMessage());
-            // If there is a runtime exception during processing, it indicates that both URIs
-            // produced different responses, so the function returns false.
-            return false;
-        }
-    }
-
-    /**
-     * Calculates the similarity between the two strings and returns a value ranging from 0 to 1,
-     * where 0 represents a 0% match (completely dissimilar) and 1 represents a 100% match
-     * (identical).
-     */
-    private static double findSimilarity(String sequence1, String sequence2) {
-        JaccardSimilarity jaccardSimilarity = new JaccardSimilarity();
-        double similarity = jaccardSimilarity.apply(sequence1, sequence2);
-        return similarity;
+    // Checks if the response is Html content or not
+    private boolean isHtmlResponse(HttpMessage requestmsg) {
+        String responseBody = requestmsg.getResponseBody().toString();
+        String regex = "<\\/?[a-z][\\s\\S]*>";
+        Matcher matcher = Pattern.compile(regex).matcher(responseBody);
+        return matcher.find();
     }
 
     private static void setMessageCookies(HttpMessage newMsg, HttpMessage originalMsg) {
