@@ -52,7 +52,6 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
     int numSuffixesToTry = 0;
     int numPrefixesToTry = 0;
     boolean doSwitchFileExtension = false;
-    static final double MIN_MATCH = 0.8; // For 80% match
 
     public Map<String, String> ALERT_TAGS = new HashMap<>();
 
@@ -678,8 +677,8 @@ public class BackupFileDisclosureScanRule extends AbstractAppPlugin {
 
             // for each directory suffix/prefix to try (using the file prefixes/suffixes - or
             // whatever the plural of prefix/suffix is)
+            counted = 0;
             if (pathbreak.length > 2) {
-                counted = 0;
                 // if there is a a parent folder to play with
                 for (String fileSuffixToTry : fileSuffixes) {
                     // inject the directory suffix at positionDirectorySuffixInjection

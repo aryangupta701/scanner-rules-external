@@ -70,7 +70,6 @@ java {
 dependencies {
     implementation("commons-io:commons-io:2.6")
     implementation("org.apache.commons:commons-csv:1.8")
-    implementation("org.apache.commons:commons-text:1.10.0")
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("com.google.re2j:re2j:1.6")
     implementation("com.googlecode.java-diff-utils:diffutils:1.3.0")
