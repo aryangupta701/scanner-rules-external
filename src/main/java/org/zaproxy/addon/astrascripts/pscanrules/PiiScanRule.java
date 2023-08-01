@@ -163,7 +163,7 @@ public class PiiScanRule extends PluginPassiveScanner {
             return;
         }
         int confidence = 1;
-        if (findUrlKeywords(msg.getRequestHeader().getHeadersAsString(), 1)) {
+        if (findUrlKeywords(msg.getRequestHeader().getURI().toString(), 1)) {
             confidence += 1;
         }
 
@@ -208,8 +208,8 @@ public class PiiScanRule extends PluginPassiveScanner {
         return findKeywords(responseBody, minMatches, BODY_KEYWORDS_REGEX);
     }
 
-    private static boolean findUrlKeywords(String responseBody, int minMatches) {
-        return findKeywords(responseBody, minMatches, URL_KEYWORDS_REGEX);
+    private static boolean findUrlKeywords(String url, int minMatches) {
+        return findKeywords(url, minMatches, URL_KEYWORDS_REGEX);
     }
 
     private static boolean findKeywords(String responseBody, int minMatches, String regex) {
@@ -305,7 +305,7 @@ public class PiiScanRule extends PluginPassiveScanner {
     }
 
     private static List<Candidate> getNumberSequences(String inputString, int minSequence) {
-        String regexString = String.format("(?:\\d{%d,}[\\s-]*)+", minSequence);
+        String regexString = String.format("(\\b(?:\\d{%d,}[\\s-]*)\\b)+", minSequence);
         // Use RE2/J to avoid StackOverflowError when the response has many numbers.
         com.google.re2j.Matcher matcher =
                 com.google.re2j.Pattern.compile(regexString).matcher(inputString);

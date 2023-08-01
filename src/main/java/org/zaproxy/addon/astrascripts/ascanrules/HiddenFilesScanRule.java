@@ -418,7 +418,7 @@ public class HiddenFilesScanRule extends AbstractHostPlugin {
                 LOG.debug("Inside AND Loop. Checking for string -> " + testStr);
                 String regex = "\\b" + testStr + "\\b";
                 Matcher matcher = Pattern.compile(regex).matcher(responseBody);
-                if (matcher.find()) {
+                if (!matcher.find()) {
                     LOG.debug("AND loop - Failed to find string -> " + testStr);
                     return false;
                 }
