@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -113,6 +115,13 @@ public class HiddenFilesScanRule extends AbstractHostPlugin {
                 LOG.info("404 not configured on server, exiting...");
                 continue;
             }
+
+            // Assuming hidden file is never a html file
+            if (!astraAddOnConstants.isHtmlResponse(testMsg)) {
+                LOG.info("Response is an HTML response, skipping..");
+                continue;
+            }
+
             int statusCode = testMsg.getResponseHeader().getStatusCode();
             if (isPage200(testMsg)) {
                 String responseBody = testMsg.getResponseBody().toString();
@@ -394,7 +403,9 @@ public class HiddenFilesScanRule extends AbstractHostPlugin {
             LOG.debug("Checking for OR condition");
             for (String testStr : testStrings) {
                 LOG.debug("Inside OR Loop. Checking for string -> " + testStr);
-                if (responseBody.contains(testStr)) {
+                String regex = "\\b" + testStr + "\\b";
+                Matcher matcher = Pattern.compile(regex).matcher(responseBody);
+                if (matcher.find()) {
                     LOG.debug("Found String -> " + testStr);
                     return true;
                 }
@@ -405,7 +416,9 @@ public class HiddenFilesScanRule extends AbstractHostPlugin {
             LOG.debug("Checking for AND condition");
             for (String testStr : testStrings) {
                 LOG.debug("Inside AND Loop. Checking for string -> " + testStr);
-                if (!responseBody.contains(testStr)) {
+                String regex = "\\b" + testStr + "\\b";
+                Matcher matcher = Pattern.compile(regex).matcher(responseBody);
+                if (matcher.find()) {
                     LOG.debug("AND loop - Failed to find string -> " + testStr);
                     return false;
                 }
